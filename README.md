@@ -3,6 +3,9 @@
 
 This is a python script using the pymem module to read the memory in order to get the coordinates and write to the memory to teleport the local player car
 
+## Warning
+
+Offsets and addresses are not up to date
 
 
 
