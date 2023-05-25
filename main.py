@@ -2,16 +2,20 @@ import pymem, utility, keyboard, os, time
 
 process = pymem.Pymem('Trackmania.exe')
 
-xbase = process.base_address + 0x01F2E2C8
-ybase = process.base_address + 0x01F5E028
-zbase = process.base_address + 0x01F2E2D8
+xbase = process.base_address + 0x01F37AC8
+ybase = process.base_address + 0x01F37AB8
+zbase = process.base_address + 0x01F37AB8
+
+offsets_x = [0x158, 0x50, 0x1D0, 0x48, 0x180, 0xCBC, 0x2C]
+offsets_y = [0x158, 0x50, 0x1D0, 0x48, 0x180, 0xCBC, 0x30]
+offsets_z = [0x158, 0x50, 0x1C8, 0x1F8, 0x30, 0xD20, 0x34]
 
 def GetPtr(x, y, z):
 
     # find which address is the pointer pointing towards
-    xAddr = utility.FindDMAAddy(process.process_handle, xbase, [0x158, 0x58, 0xC8, 0x28, 0x38, 0x0, 0x80], 64)
-    yAddr = utility.FindDMAAddy(process.process_handle, ybase, [0x48, 0xD00, 0x908, 0x1E8, 0x38, 0, 0x78], 64)
-    zAddr = utility.FindDMAAddy(process.process_handle, zbase, [0x158, 0x58, 0x9D0, 0x38, 0x0, 0x7C], 64)
+    xAddr = utility.FindDMAAddy(process.process_handle, xbase, offsets_x, 64)
+    yAddr = utility.FindDMAAddy(process.process_handle, ybase, offsets_y, 64)
+    zAddr = utility.FindDMAAddy(process.process_handle, zbase, offsets_z, 64)
 
     # Write the values to the ptr
     process.write_float(xAddr, x)
@@ -38,9 +42,9 @@ while True:
         pass
 
     elif keyboard.is_pressed('shift + y'):
-        xAddr = utility.FindDMAAddy(process.process_handle, xbase, [0x158, 0x58, 0xC8, 0x28, 0x38, 0x0, 0x80], 64)
-        yAddr = utility.FindDMAAddy(process.process_handle, ybase, [0x48, 0xD00, 0x908, 0x1E8, 0x38, 0, 0x78], 64)
-        zAddr = utility.FindDMAAddy(process.process_handle, zbase, [0x158, 0x58, 0x9D0, 0x38, 0x0, 0x7C], 64)
+        xAddr = utility.FindDMAAddy(process.process_handle, xbase, offsets_x, 64)
+        yAddr = utility.FindDMAAddy(process.process_handle, ybase, offsets_x, 64)
+        zAddr = utility.FindDMAAddy(process.process_handle, zbase, offsets_x, 64)
 
         print("X: " + str(process.read_float(xAddr)))
         print("Y: " + str(process.read_float(yAddr)))
