@@ -5,7 +5,7 @@ This is a python script using the pymem module to read the memory in order to ge
 
 ## Warning
 
-Offsets and addresses are not up to date
+Offsets and addresses are not up to date in the release tab
 
 
 
