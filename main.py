@@ -6,8 +6,8 @@ xbase = process.base_address + 0x01F37AC8
 ybase = process.base_address + 0x01F37AB8
 zbase = process.base_address + 0x01F37AB8
 
-offsets_x = [0x158, 0x50, 0x1D0, 0x48, 0x180, 0xCBC, 0x2C]
-offsets_y = [0x158, 0x50, 0x1D0, 0x48, 0x180, 0xCBC, 0x30]
+offsets_x = [0x158, 0x50, 0x608, 0x1F8, 0x30, 0xD20, 0x2C]
+offsets_y = [0x158, 0x58, 0x108, 0xF0, 0x38, 0x0, 0x7C]
 offsets_z = [0x158, 0x50, 0x1C8, 0x1F8, 0x30, 0xD20, 0x34]
 
 def GetPtr(x, y, z):
@@ -58,8 +58,8 @@ while True:
 
     elif keyboard.is_pressed('shift + y'):
         xAddr = utility.FindDMAAddy(process.process_handle, xbase, offsets_x, 64)
-        yAddr = utility.FindDMAAddy(process.process_handle, ybase, offsets_x, 64)
-        zAddr = utility.FindDMAAddy(process.process_handle, zbase, offsets_x, 64)
+        yAddr = utility.FindDMAAddy(process.process_handle, ybase, offsets_y, 64)
+        zAddr = utility.FindDMAAddy(process.process_handle, zbase, offsets_z, 64)
 
         print("X: " + str(process.read_float(xAddr)))
         print("Y: " + str(process.read_float(yAddr)))
@@ -71,5 +71,8 @@ while True:
         x_value = float(input("X: "))
         y_value = float(input("Y: "))
         z_value = float(input("Z: "))
-
+        time.sleep(0.5)
         GetPtrLoop(x_value, y_value, z_value)
+
+        os.system('cls')
+        pass
