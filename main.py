@@ -21,12 +21,27 @@ def GetPtr(x, y, z):
     process.write_float(xAddr, x)
     process.write_float(yAddr, y)
     process.write_float(zAddr, z)
-#    print(xAddr)
-#    print(yAddr)
-#    print(zAddr)
+
+def GetPtrLoop(x, y, z):
+
+    # find which address is the pointer pointing towards
+    xAddr = utility.FindDMAAddy(process.process_handle, xbase, offsets_x, 64)
+    yAddr = utility.FindDMAAddy(process.process_handle, ybase, offsets_y, 64)
+    zAddr = utility.FindDMAAddy(process.process_handle, zbase, offsets_z, 64)
+
+    # Write the values to the ptr
+    while True:
+        process.write_float(xAddr, x)
+        process.write_float(yAddr, y)
+        process.write_float(zAddr, z)
+
+        if keyboard.is_pressed('shift + e'):
+            time.sleep(1.5)
+            break
+
 
 while True:
-    if keyboard.is_pressed('shift + t'):
+    if keyboard.is_pressed('shift + a'):
 
         keyboard.press_and_release('esc') # pause the game
 
@@ -51,3 +66,10 @@ while True:
         print("Z: " + str(process.read_float(zAddr)))
         time.sleep(0.5)
         pass
+
+    elif keyboard.is_pressed('shift + e'):
+        x_value = float(input("X: "))
+        y_value = float(input("Y: "))
+        z_value = float(input("Z: "))
+
+        GetPtrLoop(x_value, y_value, z_value)
