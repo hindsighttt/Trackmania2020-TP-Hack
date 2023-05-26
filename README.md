@@ -16,7 +16,7 @@ To use the script, you must already have the game launched.
 
 While you're in a map you can
     
-    Press shift + t to teleport
+    Press shift + a to teleport
         It will pause the game
         Open the hack instance again
         Then input the coordinates
@@ -24,6 +24,10 @@ While you're in a map you can
         Y:
         Z:
         And press enter to teleport
+        
+    Press shift + e to online tp
+        same steps
+        once teleport worked press shift + e again to stop the tp
         
     Press shift + y to get the current coordinates of the local player
         It will print the coordinates to the console like this
