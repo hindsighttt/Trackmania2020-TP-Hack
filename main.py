@@ -1,14 +1,8 @@
 import pymem, utility, keyboard, os, time
+from offsets import *
 
 process = pymem.Pymem('Trackmania.exe')
 
-xbase = process.base_address + 0x01F7A890
-ybase = process.base_address + 0x01F7A890
-zbase = process.base_address + 0x01F7A890
-
-offsets_x = [0x50, 0xD00, 0x368, 0x38, 0x0, 0x78]
-offsets_y = [0x50, 0xD00, 0xA20, 0x28, 0x38, 0x0, 0x7C]
-offsets_z = [0x50, 0x1C0, 0x20, 0x9D0, 0x38, 0x0, 0x80]
 
 def GetPtr(x, y, z):
 
@@ -39,6 +33,16 @@ def GetPtrLoop(x, y, z):
             time.sleep(1.5)
             break
 
+def GetPtrSpeed(zvel):
+
+    # find which address is the pointer pointing towards
+    zvelAddr = utility.FindDMAAddy(process.process_handle, zvelbase, offsets_zvel, 64)
+    zvel_current = process.read_float(zvelAddr)
+    zvelnew = zvel + zvel_current
+    # Write the values to the ptr
+    process.write_float(zvelAddr, zvelnew)
+
+
 
 while True:
     if keyboard.is_pressed('shift + a'):
@@ -68,10 +72,10 @@ while True:
         pass
 
     elif keyboard.is_pressed('shift + e'):
-        x_value = float(input("X: "))
-        y_value = float(input("Y: "))
-        z_value = float(input("Z: "))
-        time.sleep(0.5)
+        x_value = float(677.55078125)#float(input("X: "))
+        y_value = float(106.0137939453125)#float(input("Y: "))
+        z_value = float(925.1013793945312)#float(input("Z: "))
+        time.sleep(0.2)
         GetPtrLoop(x_value, y_value, z_value)
 
         os.system('cls')
