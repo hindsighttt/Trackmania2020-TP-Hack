@@ -1,5 +1,5 @@
 import ctypes
-import win32con #part of pywin32
+import win32con
 
 # Win32 Kernel32 API
 api = ctypes.windll.kernel32
