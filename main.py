@@ -33,13 +33,20 @@ def GetPtrLoop(x, y, z):
             time.sleep(1.5)
             break
 
-def GetPtrSpeed(zvel):
+def GetPtrSpeed(xvel,zvel):
 
     # find which address is the pointer pointing towards
+    xvelAddr = utility.FindDMAAddy(process.process_handle, xvelbase, offsets_xvel, 64)
     zvelAddr = utility.FindDMAAddy(process.process_handle, zvelbase, offsets_zvel, 64)
+
+
+    xvel_current = process.read_float(xvelAddr)
+    xvelnew = xvel + xvel_current
     zvel_current = process.read_float(zvelAddr)
     zvelnew = zvel + zvel_current
+
     # Write the values to the ptr
+    process.write_float(xvelAddr, xvelnew)
     process.write_float(zvelAddr, zvelnew)
 
 
@@ -80,3 +87,41 @@ while True:
 
         os.system('cls')
         pass
+
+    elif keyboard.is_pressed('shift'):
+
+        xAddr = utility.FindDMAAddy(process.process_handle, xbase, offsets_x, 64)
+        zAddr = utility.FindDMAAddy(process.process_handle, zbase, offsets_z, 64)
+        xvelAddr = utility.FindDMAAddy(process.process_handle, xvelbase, offsets_xvel, 64)
+        zvelAddr = utility.FindDMAAddy(process.process_handle, zvelbase, offsets_zvel, 64)
+
+
+        xcur = process.read_float(xAddr)
+        zcur = process.read_float(zAddr)
+
+        time.sleep(0.05)
+
+        xnew = process.read_float(xAddr)
+        znew = process.read_float(zAddr)
+
+        xdif = xnew - xcur
+        zdif = znew - zcur
+
+        if abs(xdif) > abs(zdif):
+            if xdif > 0:
+                GetPtrSpeed(5,0)
+                pass
+
+            else:
+                GetPtrSpeed(-5,0)
+                pass
+            pass
+
+        elif abs(xdif) < abs(zdif):
+            if zdif > 0:
+                GetPtrSpeed(0,5)
+                pass
+            else:
+                GetPtrSpeed(0,-5)
+                pass
+            pass
